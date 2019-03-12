@@ -15,12 +15,10 @@ public class HTTPClient extends AbstractVerticle {
                 .<String>consumer("/httpClient")
                 .toFlowable()
                 .subscribe(message -> hitServer(message, webClient));
-        System.out.println(HTTPClient.class.getName() + " deployed");
         startFuture.complete();
     }
 
     private void hitServer(Message<String> message, WebClient webClient) {
-
         webClient.getAbs("http://localhost:8080/duplicateHTTP")
                 .rxSendBuffer(Buffer.buffer(message.body()))
                 .toFlowable()

@@ -26,13 +26,7 @@ public class HTTPServer extends AbstractVerticle {
                 .requestHandler(router)
                 .rxListen(8080)
                 .toFlowable()
-                .subscribe(res -> {
-                            System.out.println(HTTPServer.class.getName() + " deployed");
-                            startFuture.complete();
-                        },
-                        err -> {
-                            startFuture.fail("HTTP Server Verticle failed to deploy");
-                            err.printStackTrace();
-                        });
+                .subscribe(res -> startFuture.complete(),
+                        Throwable::printStackTrace);
     }
 }

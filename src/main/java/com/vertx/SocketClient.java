@@ -15,12 +15,8 @@ public class SocketClient extends AbstractVerticle {
             this.vertx.eventBus().<String>consumer("/socketClient")
                     .toFlowable()
                     .subscribe(message ->
-                            webSocket.writeBinaryMessage(Buffer.buffer(message.body())).handler(buffer -> {
-                                System.out.println("Buffer is " + buffer.toString() + " for request " + message.body());
-                                message.reply(buffer.toString());
-                            }));
+                            webSocket.writeBinaryMessage(Buffer.buffer(message.body())).handler(buffer -> message.reply(buffer.toString())));
             startFuture.complete();
-            System.out.println("Socket Client Verticle Deployed");
         });
     }
 }
